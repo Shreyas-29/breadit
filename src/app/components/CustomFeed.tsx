@@ -1,46 +1,53 @@
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from '@/config'
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { notFound } from 'next/navigation'
 import PostFeed from './PostFeed'
+import GeneralFeed from './GeneralFeed'
 
 const CustomFeed = async () => {
 
-    const session = await getAuthSession();
+    const session = await getAuthSession()
+
+    if (!session) return notFound()
 
     const followedCommunities = await db.subscription.findMany({
         where: {
-            userId: session?.user.id
+            userId: session.user.id,
         },
         include: {
-            subreddit: true
-        }
+            subreddit: true,
+        },
     });
 
     const posts = await db.post.findMany({
         where: {
             subreddit: {
                 name: {
-                    in: followedCommunities.map(sub => sub.subreddit.name)
-                }
-            }
+                    in: followedCommunities.map((sub) => sub.subreddit.name),
+                },
+            },
         },
         orderBy: {
-            createdAt: 'desc'
+            createdAt: 'desc',
         },
         include: {
             votes: true,
-            comments: true,
             author: true,
-            subreddit: true
+            comments: true,
+            subreddit: true,
         },
-        take: INFINITE_SCROLLING_PAGINATION_RESULTS
+        take: INFINITE_SCROLLING_PAGINATION_RESULTS,
     });
 
-    return (
-        //<div className='pb-32'>
-        <PostFeed initialPosts={posts} />
-        //</div>
-    )
+    if (posts.length === 0) {
+        return (
+            // @ts-expect-error server component
+            <GeneralFeed />
+        )
+    }
+
+    return <PostFeed initialPosts={posts} />
 }
 
 export default CustomFeed

@@ -6,16 +6,16 @@ const GeneralFeed = async () => {
 
     const posts = await db.post.findMany({
         orderBy: {
-            createdAt: 'desc'
+            createdAt: 'desc',
         },
         include: {
             votes: true,
-            comments: true,
             author: true,
-            subreddit: true
+            comments: true,
+            subreddit: true,
         },
-        take: INFINITE_SCROLLING_PAGINATION_RESULTS
-    })
+        take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+    });
 
     return (
         <PostFeed initialPosts={posts} />
