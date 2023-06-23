@@ -1,12 +1,13 @@
 {
-  "name": "reddit-clone",
+  "name": "breadit",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@editorjs/code": "^2.8.0",
