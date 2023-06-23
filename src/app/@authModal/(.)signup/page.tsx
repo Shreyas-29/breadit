@@ -1,4 +1,4 @@
-import { CloseModal, SignUp } from '@/components'
+import { CloseModal, SignUp } from '@/app/components'
 
 const SignpPage = () => {
     return (

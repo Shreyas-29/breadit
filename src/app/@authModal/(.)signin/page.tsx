@@ -1,4 +1,4 @@
-import { CloseModal, SignIn } from '@/components'
+import { CloseModal, SignIn } from '@/app/components'
 import React from 'react'
 
 const SignInPage = () => {
