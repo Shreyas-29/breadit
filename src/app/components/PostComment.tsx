@@ -62,7 +62,7 @@ const PostComment = ({
             toast({
                 title: 'Something went wrong',
                 description: "Comment wasn't posted successfully, please try again.",
-                variant: 'descructive'
+                variant: 'destructive'
             })
         },
         onSuccess: () => {
